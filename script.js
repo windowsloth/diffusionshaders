@@ -295,12 +295,12 @@ function loadTexture(gl, url) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     testo = 1;
+    console.log(testo);
     return texture;
   }
   image.src = url;
   
   console.log(testo);
-  return texture;
 }
 
 function drawScene(gl, programinfo, buffers, textures) {
