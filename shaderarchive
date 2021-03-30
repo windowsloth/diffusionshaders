@@ -1,0 +1,169 @@
+const vert = `
+  attribute vec4 position;
+  attribute vec2 texcoord_attrib;
+  varying vec2 texcoord;
+
+  void main() {
+    gl_Position = position;
+    texcoord = texcoord_attrib;
+  }
+`;
+const frag = `
+  precision mediump float;
+  uniform sampler2D u_image;
+
+  // RED UNIFORMS
+  uniform float rmag;
+  uniform float rscl;
+  uniform int roct;
+  uniform float rtheta;
+
+  // GREEN UNIFORMS
+  uniform float gmag;
+  uniform float gscl;
+  uniform int goct;
+  uniform float gtheta;
+
+  // BLUE UNIFORMS
+  uniform float bmag;
+  uniform float bscl;
+  uniform int boct;
+  uniform float btheta;
+
+  uniform vec2 org;
+  varying vec2 texcoord;
+
+  vec2 imgdim = vec2(${image.width}, ${image.height});
+  vec2 onepx = vec2(1.0, 1.0) / imgdim;
+
+  float rand(vec2 n) {
+    float core = sin(dot(n, vec2(12.9898, 78.233))) * 43758.5453;
+    return sign(core) * fract(core);
+  }
+
+  vec2 hash(vec2 n) {
+    vec2 k = vec2(0.3183099, 0.3678794);
+    n = n * k + k.yx;
+    return -1.0 + 2.0 * fract(16.0 * k * fract( n.x * n.y * (n.x + n.y)));
+  }
+
+  vec3 noise(vec2 n, float angle) {
+    vec2 orgo = n - org;
+    vec2 rotn = vec2(
+      (orgo.x) * cos(angle) - (orgo.y) * sin(angle),
+      (orgo.x) * sin(angle) + (orgo.y) * cos(angle)) + org;
+
+    vec2 i = floor(rotn);
+    vec2 f = fract(rotn);
+
+    vec2 u = f * f * f * (f * (f  * 6.0 - 15.0) + 10.0);
+    vec2 du = 30.0 * f * f * (f * (f - 2.0) + 1.0);
+
+    vec2 ga = vec2(hash(i + vec2(0.0, 0.0)));
+    vec2 gb = vec2(hash(i + vec2(1.0, 0.0)));
+    vec2 gc = vec2(hash(i + vec2(0.0, 1.0)));
+    vec2 gd = vec2(hash(i + vec2(1.0, 1.0)));
+
+    float va = dot(ga, f - vec2(0.0, 0.0));
+    float vb = dot(gb, f - vec2(1.0, 0.0));
+    float vc = dot(gc, f - vec2(0.0, 1.0));
+    float vd = dot(gd, f - vec2(1.0, 1.0));
+
+    return vec3(
+      va + u.x*(vb-va) + u.y*(vc-va) + u.x*u.y*(va-vb-vc+vd),
+      ga + u.x*(gb-ga) + u.y*(gc-ga) + u.x*u.y*(ga-gb-gc+gd) + du *
+      (u.yx*(va-vb-vc+vd) + vec2(vb,vc) - va)
+    );
+  }
+
+  float fbm(vec2 inp, float H, int oct, float angle) {
+    float normalize = 0.0;
+    float G = exp2(-H);
+    float f = 1.0;
+    float a = 0.5;
+    float t = 0.0;
+    for (int i = 0; i < 11; i++) {
+      if (i == roct) break;
+      t += a * noise(f * inp, angle).x;
+      f *= 2.0;
+      a *= G;
+      normalize += a;
+    }
+    return t;
+  }
+
+  float tau = ${2 * Math.PI};
+  vec2 newInk(vec2 coord, float scl, int oct, float theta, float mag) {
+    // float startval = rand(coord);
+    float startval = fbm(coord / scl, 0.5, oct, theta) + 0.5;
+    vec2 startcoord = coord;
+    vec2 nextvec = vec2(cos(startval * tau), sin(startval * tau));
+    vec2 finalvec = nextvec;
+    // int endval = int(mag * startval);
+    int endval = int(mag);
+    for (int i = 0; i < 101; i++) {
+      if (i == endval) break;
+      vec2 nextcoord = startcoord + nextvec;
+      // float nextval = fbm(nextcoord / scl, 0.5, oct, theta);
+      float nextval = rand(nextcoord);
+      nextvec = vec2(cos(nextval * tau), sin(nextval * tau));
+      finalvec = finalvec + nextvec;
+      startcoord = nextcoord;
+    }
+    float fvl = sqrt(finalvec.x * finalvec.x + finalvec.y * finalvec.y);
+    finalvec = 100.0 * finalvec / fvl;
+    return finalvec;
+  }
+
+  void main() {
+    vec2 coord = gl_FragCoord.xy;
+
+    // vec3 testo = vec3(
+    //   fbm(coord / rscl, 0.75, roct, rtheta) + 0.5,
+    //   fbm(coord / rscl, 0.75, goct, gtheta) + 0.5,
+    //   fbm(coord / rscl, 0.75, boct, btheta) + 0.5
+    // );
+    // gl_FragColor = vec4(testo, 1);
+
+    // float startval = fbm(coord / rscl, 0.5, roct, rtheta) + 0.5;
+    // vec2 startcoord = coord;
+    // vec2 nextvec = vec2(cos(startval * tau), sin(startval * tau));
+    // vec2 finalvec = nextvec;
+    // // int endval = int(rmag * startval);
+    // int endval = int(rmag);
+    // for (int i = 0; i < 101; i++) {
+    //   if (i == endval) break;
+    //   vec2 nextcoord = startcoord + nextvec;
+    //   // float nextval = fbm(coord / rscl, 0.5, roct, rtheta);
+    //   float nextval = rand(coord);
+    //   nextvec = vec2(cos(nextval * tau), sin(nextval * tau));
+    //   finalvec = finalvec + nextvec;
+    //   startcoord = nextcoord;
+    // }
+
+    // gl_FragColor = texture2D(u_image, texcoord + newInk(coord, rscl, roct, rtheta, rmag) * onepx);
+
+    float rd = texture2D(u_image, texcoord + newInk(coord, rscl, roct, rtheta, rmag) * onepx).x;
+    float grn = texture2D(u_image, texcoord + newInk(coord, gscl, goct, gtheta, gmag) * onepx).y;
+    float bl = texture2D(u_image, texcoord + newInk(coord, bscl, boct, btheta, bmag) * onepx).z;
+    gl_FragColor = vec4(rd, grn, bl, 1);
+
+    // float rangle = fbm(coord / rscl, 0.2, roct, rtheta) * ${2 * Math.PI};
+    // vec2 modvec = vec2(cos(rangle), sin(rangle)) * rmag * noise(coord, rtheta).y;
+    // gl_FragColor = texture2D(u_image, texcoord + modvec * onepx);
+
+    // float rangle = (fbm(coord / rscl, 0.75, roct, rtheta) + 0.5) * ${2 * Math.PI};
+    // vec2 rmodvec = vec2(cos(rangle), sin(rangle)) * rmag * noise(coord, rtheta).x;
+    //
+    // float gangle = fbm(coord / gscl, 0.75, goct, gtheta) * ${2 * Math.PI};
+    // vec2 gmodvec = vec2(cos(gangle), sin(gangle)) * gmag * noise(coord, gtheta).x;
+    //
+    // float bangle = fbm(coord / bscl, 0.75, boct, btheta) * ${2 * Math.PI};
+    // vec2 bmodvec = vec2(cos(bangle), sin(bangle)) * bmag * noise(coord, btheta).x;
+    //
+    // vec4 rmod = texture2D(u_image, texcoord + rmodvec * onepx);
+    // vec4 gmod = texture2D(u_image, texcoord + gmodvec * onepx);
+    // vec4 bmod = texture2D(u_image, texcoord + bmodvec * onepx);
+    // gl_FragColor = vec4(rmod.x, gmod.y, bmod.z, 1);
+  }
+`;

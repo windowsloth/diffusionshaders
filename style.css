@@ -1,0 +1,39 @@
+body  {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* color: red; */
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+section {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+canvas {
+  width: auto;
+  width: 1000px;
+  /* width: 750px; */
+  /* height: 500px; */
+  /* display: block; */
+}
+nav {
+  display: flex;
+  flex-flow: column;
+}
+h3 {
+  text-align: center;
+}
+h3.red {
+  color: red;
+}
+h3.green {
+  color: green;
+}
+h3.blue {
+  color: blue;
+}
