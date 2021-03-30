@@ -295,7 +295,7 @@ function loadTexture(gl, url) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
   }
   image.src = url;
-  console.log(image);
+  console.log(texture);
   
   return texture;
 }
