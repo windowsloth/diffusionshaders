@@ -53,7 +53,8 @@ const frag = `
   uniform float blue_stepsize;
 
   varying vec2 texcoord;
-  vec2 imgdim = vec2(${image.width}, ${image.height});
+//   vec2 imgdim = vec2(${image.width}, ${image.height});
+  vec2 imgdim = vec2(2048.0, 1067.0);
   vec2 onepx = vec2(1.0, 1.0) / imgdim;
   
   float scalar = 1.61803398875;
