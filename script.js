@@ -1,3 +1,4 @@
+console.log('testo');
 let red_maxtime = 56.0;
 let red_timeinterval = 1.0;
 let red_stepsize = 5.0;
