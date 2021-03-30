@@ -144,16 +144,18 @@ function main() {
     },
   };
   const buffers = initBuffers(gl);
-  const textures = [
-    loadTexture(gl, './soldiers.jpg'),
-    loadTexture(gl, './h3.jpg')
-  ];
-  if (imagebool == textures.length) {
-      console.log(imagebool);
-     drawScene(gl, programinfo, buffers, textures);
-    console.log(textures);
-  }
-  console.log(textures);
+//   const textures = [
+//     loadTexture(gl, './soldiers.jpg'),
+//     loadTexture(gl, './h3.jpg')
+//   ];
+  const textures = [];
+  const mainimage = new Image();
+  mainimage.onload = function() {
+    textures.push(loadTexture(gl, mainimage));
+    textures.push(loadTexture(gl, mainimage));
+  };
+  mainimage.src = 'soldiers.jpg';
+  drawScene(gl, programinfo, buffers, textures);
 }
 function initShaderProgram(gl, vertsource, fragsource) {
   // Load in the vertex and fragment shaders from our global variables
@@ -282,18 +284,34 @@ function initBuffers(gl) {
   };
 }
 
-function loadTexture(gl, url) {
+function loadTexture(gl, img) {
   // Load in a white pixel as a placeholder while the image(s) load
   const pixel = new Uint8Array([255, 255, 255, 255]);
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+//   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+//   
+//   const image = new Image();
+//   image.onload = function() {
+//     gl.bindTexture(gl.TEXTURE_2D, texture);
+//     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+//     
+//     if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+//        // Yes, it's a power of 2. Generate mips.
+//        gl.generateMipmap(gl.TEXTURE_2D);
+//     } else {
+//        // No, it's not a power of 2. Turn of mips and set
+//        // wrapping to clamp to edge
+//        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+//        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+//        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+//     }
+//     console.log('image ' + url + ' is loaded, finally');
+//     imagebool++;
+//   }
+//   image.src = url;
   
-  const image = new Image();
-  image.onload = function() {
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
     if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
        // Yes, it's a power of 2. Generate mips.
        gl.generateMipmap(gl.TEXTURE_2D);
@@ -304,11 +322,6 @@ function loadTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
-    console.log('image ' + url + ' is loaded, finally');
-    imagebool++;
-  }
-  image.src = url;
-  
   return texture;
 }
 
