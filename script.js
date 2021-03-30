@@ -149,6 +149,7 @@ function main() {
   ];
   
   drawScene(gl, programinfo, buffers, textures);
+  console.log('done');
 }
 function initShaderProgram(gl, vertsource, fragsource) {
   // Load in the vertex and fragment shaders from our global variables
@@ -299,6 +300,7 @@ function loadTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
+    console.log('image ' + url + ' is loaded, finally');
   }
   image.src = url;
   
