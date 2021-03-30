@@ -1,20 +1,3 @@
-console.log('hello! i exist');
-const vertices = new Float32Array([
-  // -0.5, 0.5,
-  // 0.5, 0.5,
-  // 0.5, -0.5,
-  // -0.5, 0.5,
-  // -0.5, -0.5,
-  // 0.5, -0.5
-  -1.0, 1.0,
-  1.0, 1.0,
-  -1.0, -1.0,
-
-  -1.0, -1.0,
-  1.0, 1.0,
-  1.0, -1.0
-]);
-
 let red_maxtime = 56.0;
 let red_timeinterval = 1.0;
 let red_stepsize = 5.0;
@@ -199,6 +182,15 @@ function loadShader(gl, type, source) {
 
 function initBuffers(gl) {
   // Position Buffer for vertex shader
+  const vertices = new Float32Array([
+    -1.0, 1.0,
+    1.0, 1.0,
+    -1.0, -1.0,
+
+    -1.0, -1.0,
+    1.0, 1.0,
+    1.0, -1.0
+  ]);
   const posbuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, posbuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
