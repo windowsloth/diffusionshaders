@@ -308,8 +308,6 @@ function drawScene(gl, programinfo, buffers, textures) {
   gl.clearDepth(1.0); // Is this line necessary if I'm doing 2D? No depth testing required afaik
   gl.clear(gl.COLOR_BUFFER_BIT);
   
-  gl.useProgram(programinfo.program);
-  
   // Tell the program where/how to get the position data for the vertex shader
   { // Position
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
@@ -321,6 +319,9 @@ function drawScene(gl, programinfo, buffers, textures) {
     gl.vertexAttribPointer(programinfo.attriblocations.texcoordattrib, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(programinfo.attriblocations.texcoord_loc);
   }
+  
+  gl.useProgram(programinfo.program);
+  
   { // Main Image
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, textures[0]);
