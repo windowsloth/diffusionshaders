@@ -284,7 +284,7 @@ function loadTexture(gl, url) {
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
    
-  let testo = 0;
+  let testo = 10;
   const image = new Image();
   image.src = url;
   image.onload = function() {
