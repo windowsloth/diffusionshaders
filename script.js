@@ -174,8 +174,8 @@ function initShaderProgram(gl, vertsource, fragsource) {
   gl.linkProgram(shaderprogram);
   
   // Handle errors from the program
-  if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-    console.log('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+  if (!gl.getProgramParameter(shaderprogram, gl.LINK_STATUS)) {
+    console.log('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderprogram));
     return null;
   }
   
