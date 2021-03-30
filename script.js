@@ -95,7 +95,8 @@ const frag = `
       getColor(coord, 9.2, bluetime, blue_timeinterval, blue_stepsize).z,
       1.0
     );
-    gl_FragColor = testo;
+    //gl_FragColor = testo;
+    gl_FragColor = texture2D(u_image0, texcoord);
   }
 `;
 
@@ -285,6 +286,7 @@ function loadTexture(gl, url) {
   
   const image = new Image();
   image.onload = function() {
+    console.log('loaded, baby!');
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
     
