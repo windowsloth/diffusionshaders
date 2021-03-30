@@ -308,6 +308,8 @@ function drawScene(gl, programinfo, buffers, textures) {
   gl.clearDepth(1.0); // Is this line necessary if I'm doing 2D? No depth testing required afaik
   gl.clear(gl.COLOR_BUFFER_BIT);
   
+  gl.useProgram(programinfo.program);
+  
   // Tell the program where/how to get the position data for the vertex shader
   { // Position
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
@@ -377,6 +379,5 @@ function drawScene(gl, programinfo, buffers, textures) {
     gl.uniform1f(programinfo.uniformlocations.blue.maxtimeloc, blue_stepsize);
   }
   
-  gl.useProgram(programinfo.program);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
