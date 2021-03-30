@@ -11,6 +11,7 @@ let blue_timeinterval = 1.0;
 let blue_stepsize = 5.0;
 
 let invert = 0.0;
+let imagebool = 0;
 
 const vert = `
   attribute vec4 position;
@@ -147,8 +148,9 @@ function main() {
     loadTexture(gl, './soldiers.jpg'),
     loadTexture(gl, './h3.jpg')
   ];
-  
-  drawScene(gl, programinfo, buffers, textures);
+  if (imagebool == textures.length) {
+     drawScene(gl, programinfo, buffers, textures);
+  }
   console.log('done');
 }
 function initShaderProgram(gl, vertsource, fragsource) {
@@ -301,6 +303,7 @@ function loadTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
     console.log('image ' + url + ' is loaded, finally');
+    imagebool++;
   }
   image.src = url;
   
