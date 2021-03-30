@@ -10,6 +10,8 @@ let blue_maxtime = 56.0;
 let blue_timeinterval = 1.0;
 let blue_stepsize = 5.0;
 
+let invert = 0;
+
 const vert = `
   attribute vec4 position;
   attribute vec2 texcoord_attrib;
