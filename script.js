@@ -39,16 +39,15 @@ function newmain() {
         stepsizeloc: gl.getUniformLocation(shaderprogram, 'blue_stepsize'),
       },
     },
-  }
+  };
   const buffers = initBuffers(gl, vertices);
   const textures = [
     loadTexture(gl, './soldiers.jpg'),
-    loadTexture(gl, './h3.jpg)
+    loadTexture(gl, './h3.jpg')
   ];
 
   drawScene(gl, programinfo, buffers, textures);
-};
-
+}
 function initShaderProgram(gl, vertsource, fragsource) {
   // Load in the vertex and fragment shaders from our global variables
   const vertexshader = loadShader(gl, gl.VERTEX_SHADER, vertsource);
@@ -63,10 +62,10 @@ function initShaderProgram(gl, vertsource, fragsource) {
   if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
     console.log('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
     return null;
-  };
+  }
   
   return shaderprogram;
-};
+}
 
 function loadShader(gl, type, source) {
   const shader = gl.createShader(type);
@@ -81,7 +80,7 @@ function loadShader(gl, type, source) {
   }
   
   return shader;
-};
+}
 
 function initBuffers(gl, vertices) {
   // Position Buffer for vertex shader
