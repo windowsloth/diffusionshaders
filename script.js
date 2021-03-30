@@ -149,10 +149,11 @@ function main() {
     loadTexture(gl, './h3.jpg')
   ];
   if (imagebool == textures.length) {
+      console.log(imagebool);
      drawScene(gl, programinfo, buffers, textures);
+    console.log(textures);
   }
   console.log(textures);
-  console.log(imagebool);
 }
 function initShaderProgram(gl, vertsource, fragsource) {
   // Load in the vertex and fragment shaders from our global variables
