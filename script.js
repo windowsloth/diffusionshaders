@@ -279,7 +279,7 @@ function initBuffers(gl) {
 
 function loadTexture(gl, url) {
   // Load in a white pixel as a placeholder while the image(s) load
-  const pixel = new Uint8Array([255, 0, 0, 255]);
+  const pixel = new Uint8Array([255, 255, 255, 255]);
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
