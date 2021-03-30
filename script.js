@@ -147,7 +147,7 @@ function main() {
     loadTexture(gl, './soldiers.jpg'),
     loadTexture(gl, './h3.jpg')
   ];
-
+  
   drawScene(gl, programinfo, buffers, textures);
 }
 function initShaderProgram(gl, vertsource, fragsource) {
