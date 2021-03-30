@@ -266,17 +266,17 @@ function initBuffers(gl) {
     red: {
       maxtime: red_maxtimebuffer,
       timeinterval: red_timeintervalbuffer,
-      stepsize: red_stepsizebuffer;
+      stepsize: red_stepsizebuffer,
     },
     green: {
       maxtime: green_maxtimebuffer,
       timeinterval: green_timeintervalbuffer,
-      stepsize: green_stepsizebuffer;
+      stepsize: green_stepsizebuffer,
     },
     blue: {
       maxtime: blue_maxtimebuffer,
       timeinterval: blue_timeintervalbuffer,
-      stepsize: blue_stepsizebuffer;
+      stepsize: blue_stepsizebuffer,
     },
   };
 }
