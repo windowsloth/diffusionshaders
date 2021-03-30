@@ -1,3 +1,117 @@
+const vertices = new Float32Array([
+  // -0.5, 0.5,
+  // 0.5, 0.5,
+  // 0.5, -0.5,
+  // -0.5, 0.5,
+  // -0.5, -0.5,
+  // 0.5, -0.5
+  -1.0, 1.0,
+  1.0, 1.0,
+  -1.0, -1.0,
+
+  -1.0, -1.0,
+  1.0, 1.0,
+  1.0, -1.0
+]);
+
+let red_maxtime = 56.0;
+let red_timeinterval = 1.0;
+let red_stepsize = 5.0;
+
+let green_maxtime = 56.0;
+let green_timeinterval = 1.0;
+let green_stepsize = 5.0;
+
+let blue_maxtime = 56.0;
+let blue_timeinterval = 1.0;
+let blue_stepsize = 5.0;
+
+const vert = `
+  attribute vec4 position;
+  attribute vec2 texcoord_attrib;
+  varying vec2 texcoord;
+  void main() {
+    gl_Position = position;
+    texcoord = texcoord_attrib;
+  }
+`;
+const frag = `
+  precision mediump float;
+
+  uniform sampler2D u_image0;
+  uniform sampler2D u_image1;
+  uniform float invert;
+  uniform float red_maxtime;
+  uniform float red_timeinterval;
+  uniform float red_stepsize;
+  uniform float green_maxtime;
+  uniform float green_timeinterval;
+  uniform float green_stepsize;
+  uniform float blue_maxtime;
+  uniform float blue_timeinterval;
+  uniform float blue_stepsize;
+
+  varying vec2 texcoord;
+  vec2 imgdim = vec2(${image.width}, ${image.height});
+  vec2 onepx = vec2(1.0, 1.0) / imgdim;
+  
+  float scalar = 1.61803398875;
+  float hash(vec2 inp, float seed) {
+    return fract(tan(distance(inp * scalar, inp) * seed) * inp.x);
+  }
+  float variance(float time, float delta, float stepsize) {
+    return (time / delta) * stepsize * stepsize;
+  }
+
+  float posneg(vec2 inp, float seed) {
+    float decider = hash(inp, seed);
+    if (decider > 0.5) {
+      return 1.0;
+    } else {
+      return -1.0;
+    }
+  }
+  float percentile(vec2 inp, float seed) {
+    float decider = hash(inp, seed);
+    if (decider > 0.9973) {
+      return 2.0;
+    } else if (decider > 0.9545) {
+      return 1.0;
+    } else {
+      return 0.0;
+    }
+  }
+  float inversion(float inp, vec4 mapval) {
+    if (inp == 1.0) {
+      return mapval.x;
+    } else {
+      return 1.0 - mapval.x;
+    }
+  }
+  vec4 getColor(vec2 inp, float seed, float time, float interval, float size) {
+    float sigma = pow(variance(time, interval, size), 0.5);
+    vec2 modvec = vec2 (
+      posneg(inp, seed + 1.7) * hash(inp, seed + 2.0) * sigma + sigma * percentile(inp, seed + 3.4),
+      posneg(inp, seed + 2.3) * hash(inp, seed + 5.1) * sigma + sigma * percentile(inp, seed + 2.9)
+    ) * onepx;
+    return texture2D(u_image0, texcoord + modvec);
+  }
+  void main() {
+    vec2 coord = gl_FragCoord.xy;
+    float map_result = 0.5 + cos((inversion(invert, texture2D(u_image1, texcoord)) + 1.0) * 3.1415) / 2.0;
+    float redtime = red_maxtime * map_result;
+    float greentime = green_maxtime * map_result;
+    float bluetime = blue_maxtime * map_result;
+    vec4 testo = vec4(
+      getColor(coord, 3.0, redtime, red_timeinterval, red_stepsize).x,
+      getColor(coord, 7.3, greentime, green_timeinterval, green_stepsize).y,
+      getColor(coord, 9.2, bluetime, blue_timeinterval, blue_stepsize).z,
+      1.0
+    );
+    gl_FragColor = testo;
+  }
+`;
+
 function newmain() {
 // REFACTORED SHADER CODE BASED ON WEBGL MDN EXAMPLES
 // https://github.com/mdn/webgl-examples
