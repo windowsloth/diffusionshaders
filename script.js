@@ -144,8 +144,8 @@ function main() {
   };
   const buffers = initBuffers(gl);
   const textures = [
-    loadTexture(gl, './soldiers.jpg'),
-    loadTexture(gl, './h3.jpg')
+    loadTexture(gl, 'soldiers.jpg'),
+    loadTexture(gl, 'h3.jpg')
   ];
   
   drawScene(gl, programinfo, buffers, textures);
