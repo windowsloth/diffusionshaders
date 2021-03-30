@@ -196,7 +196,7 @@ function loadShader(gl, type, source) {
   return shader;
 }
 
-function initBuffers(gl, vertices) {
+function initBuffers(gl) {
   // Position Buffer for vertex shader
   const posbuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, posbuffer);
