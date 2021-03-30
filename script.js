@@ -1,4 +1,3 @@
-console.log('testo');
 let red_maxtime = 56.0;
 let red_timeinterval = 1.0;
 let red_stepsize = 5.0;
@@ -145,8 +144,8 @@ function main() {
   };
   const buffers = initBuffers(gl);
   const textures = [
-    loadTexture(gl, 'soldiers.jpg'),
-    loadTexture(gl, 'h3.jpg')
+    loadTexture(gl, './soldiers.jpg'),
+    loadTexture(gl, './h3.jpg')
   ];
   
   drawScene(gl, programinfo, buffers, textures);
