@@ -151,7 +151,8 @@ function main() {
   if (imagebool == textures.length) {
      drawScene(gl, programinfo, buffers, textures);
   }
-  console.log('done');
+  console.log(textures);
+  console.log(imagebool);
 }
 function initShaderProgram(gl, vertsource, fragsource) {
   // Load in the vertex and fragment shaders from our global variables
