@@ -113,7 +113,7 @@ const frag = `
   }
 `;
 
-function newmain() {
+function main() {
 // REFACTORED SHADER CODE BASED ON WEBGL MDN EXAMPLES
 // https://github.com/mdn/webgl-examples
   
