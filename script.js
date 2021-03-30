@@ -101,6 +101,10 @@ function initBuffers(gl, vertices) {
   gl.bindBuffer(gl.ARRAY_BUFFER, texcoordbuffer);
   gl.bufferData(gl.ARRAY_BUFFER, texcoords, gl.STATIC_DRAW);
   
+  const invertbuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, invertbuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, invert, gl.STATIC_DRAW);
+  
   //======= R E D == B U F F E R S ===============================================
   let red_maxtimebuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, red_maxtimebuffer);
@@ -143,6 +147,7 @@ function initBuffers(gl, vertices) {
   return {
     position: posbuffer,
     texcoord: texcoordbuffer,
+    invert: invertbuffer,
     red: {
       maxtime: red_maxtimebuffer,
       timeinterval: red_timeintervalbuffer,
@@ -208,6 +213,53 @@ function drawScene(gl, programinfo, buffers, textures) {
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, textures[1]);
     gl.uniform1i(programinfo.uniformlocations.height_loc, 1);
+  }
+  { // Height Map Inversion
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.invert);
+    gl.uniform1f(programinfo.uniformlocations.invert_loc, invert);
+  }
+  
+  // Might make a seperate function to hold all of the individual uniform bindings for each channel
+  // RED CHANNEL
+  { // Max time
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.red.maxtime);
+    gl.uniform1f(programinfo.uniformlocations.red.maxtimeloc, red_maxtime);
+  }
+  { // Time interval
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.red.timeinterval);
+    gl.uniform1f(programinfo.uniformlocations.red.maxtimeloc, red_timeinterval);
+  }
+  { // Step size
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.red.stepsize);
+    gl.uniform1f(programinfo.uniformlocations.red.maxtimeloc, red_stepsize);
+  }
+  
+    // GREEN CHANNEL
+  { // Max time
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.green.maxtime);
+    gl.uniform1f(programinfo.uniformlocations.green.maxtimeloc, green_maxtime);
+  }
+  { // Time interval
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.green.timeinterval);
+    gl.uniform1f(programinfo.uniformlocations.green.maxtimeloc, green_timeinterval);
+  }
+  { // Step size
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.green.stepsize);
+    gl.uniform1f(programinfo.uniformlocations.green.maxtimeloc, green_stepsize);
+  }
+  
+    // BLUE CHANNEL
+  { // Max time
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.blue.maxtime);
+    gl.uniform1f(programinfo.uniformlocations.blue.maxtimeloc, blue_maxtime);
+  }
+  { // Time interval
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.blue.timeinterval);
+    gl.uniform1f(programinfo.uniformlocations.blue.maxtimeloc, blue_timeinterval);
+  }
+  { // Step size
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.blue.stepsize);
+    gl.uniform1f(programinfo.uniformlocations.blue.maxtimeloc, blue_stepsize);
   }
   
   gl.useProgram(programinfo.program);
