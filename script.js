@@ -304,11 +304,13 @@ function drawScene(gl, programinfo, buffers, textures) {
   
   // Tell the program where/how to get the position data for the vertex shader
   { // Position
+    console.log(buffers.position);
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(programinfo.attriblocations.positionloc, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(programinfo.attriblocations.position_loc);
   }
   { // Texture Coordinates
+    console.log(buffers.texcoord);
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.texcoord);
     gl.vertexAttribPointer(programinfo.attriblocations.texcoordattrib, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(programinfo.attriblocations.texcoord_loc);
