@@ -10,7 +10,7 @@ let blue_maxtime = 56.0;
 let blue_timeinterval = 1.0;
 let blue_stepsize = 5.0;
 
-let invert = 0;
+let invert = 0.0;
 
 const vert = `
   attribute vec4 position;
@@ -84,7 +84,8 @@ const frag = `
   }
   void main() {
     vec2 coord = gl_FragCoord.xy;
-    float map_result = 0.5 + cos((inversion(invert, texture2D(u_image1, texcoord)) + 1.0) * 3.1415) / 2.0;
+    // float map_result = 0.5 + cos((inversion(invert, texture2D(u_image1, texcoord)) + 1.0) * 3.1415) / 2.0;
+    float map_result = 0.5 + cos(texture2D(u_image1, texcoord)) + 1.0) * 3.1415) / 2.0;
     float redtime = red_maxtime * map_result;
     float greentime = green_maxtime * map_result;
     float bluetime = blue_maxtime * map_result;
