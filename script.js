@@ -114,8 +114,8 @@ async function main() {
 // https://github.com/mdn/webgl-examples
 
   const canvas = document.querySelector('#glcanvas');
-//   canvas.width = testimage.width;
-//   canvas.height = testimage.height;
+  canvas.width = testimage.width;
+  canvas.height = testimage.height;
   const gl = canvas.getContext('webgl');
 
   // Error handling in case WebGL is not available
@@ -175,8 +175,9 @@ async function main() {
   const textures = [imagetexture, heightmaptexture];
   dimensions[0] = textures[0].width;
   dimensions[1] = textures[0].height;
-  canvas.width = textures[0].width;
-  canvas.height = textures[0].height;
+  console.log(dimensions);
+//   canvas.width = textures[0].width;
+//   canvas.height = textures[0].height;
 
   drawScene(gl, programinfo, buffers, textures);
 
