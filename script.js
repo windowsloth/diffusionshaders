@@ -15,11 +15,7 @@ const testimage = new Image();
 let dimensions = new Float32Array([0.0, 0.0]);
 
 $('document').ready(function() {
-  testimage.onload = function() {
-    dimensions[0] = testimage.width;
-    dimensions[1] = testimage.height;
-    main();
-  }
+  main();
   testimage.src = './soldiers.jpg'
 });
 
@@ -118,8 +114,8 @@ async function main() {
 // https://github.com/mdn/webgl-examples
 
   const canvas = document.querySelector('#glcanvas');
-  canvas.width = testimage.width;
-  canvas.height = testimage.height;
+//   canvas.width = testimage.width;
+//   canvas.height = testimage.height;
   const gl = canvas.getContext('webgl');
 
   // Error handling in case WebGL is not available
@@ -173,11 +169,14 @@ async function main() {
 //     texture,
 //     loadTexture(gl, './h1.jpg')
 //   ];
-  const testomania = await loadImage('soldiers.jpg');
-  console.log('here is a weird thing: ' + testomania);
+
   const imagetexture = p_loadTexture(gl, await loadImage('soldiers.jpg'));
   const heightmaptexture = p_loadTexture(gl, await loadImage('h1.jpg'));
   const textures = [imagetexture, heightmaptexture];
+  dimensions[0] = textures[0].width;
+  dimensions[1] = textures[0].height;
+  canvas.width = textures[0].width;
+  canvas.height = textures[0].height;
 
   drawScene(gl, programinfo, buffers, textures);
 
