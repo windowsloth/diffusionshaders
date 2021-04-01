@@ -160,21 +160,26 @@ function main() {
   };
   const buffers = initBuffers(gl);
 
-  const texture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, testimage);
+//   const texture = gl.createTexture();
+//   gl.bindTexture(gl.TEXTURE_2D, texture);
+//   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, testimage);
 
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+//   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+//   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+//   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+//   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-  let textures = [
-    texture,
-    loadTexture(gl, './h1.jpg')
-  ];
+//   let textures = [
+//     texture,
+//     loadTexture(gl, './h1.jpg')
+//   ];
+  const imagetexture = promise.resolve(p_loadTexture(gl, 'soldiers.jpg'));
+  const heightmaptexture = promise.resolve(p_loadTexture(gl, 'h1.jpg'));
+  Promise.all([imagetexture, heightmaptexture]).then(textures => {
+    drawScene(gl, programinfo, buffers, textures);
+  });
 
-  drawScene(gl, programinfo, buffers, textures);
+//   drawScene(gl, programinfo, buffers, textures);
 
   $('#red_maxtime').on('input', function() {
     red_maxtime = $('#red_maxtime').val();
@@ -395,6 +400,30 @@ function loadTexture(gl, url) {
   image.src = url;
 
   return texture;
+}
+
+function p_loadTexture(gl, url) {
+  // Load in a white pixel as a placeholder while the image(s) load
+  const texture = gl.createTexture();
+  const image = new Image();
+  image.onload = function() {
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+    if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+       // Yes, it's a power of 2. Generate mips.
+       gl.generateMipmap(gl.TEXTURE_2D);
+    } else {
+       // No, it's not a power of 2. Turn of mips and set
+       // wrapping to clamp to edge
+       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    }
+    console.log('image ' + url + ' is loaded, finally');
+    return texture;
+  }
+  image.src = url;
 }
 
 // Putting in this code to try and understand why the example works but mine does not.
