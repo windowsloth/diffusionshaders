@@ -403,11 +403,14 @@ function loadTexture(gl, url) {
 }
 
 function loadImage(url) {
-  const image = new Image();
-  image.onload = function() {
-    return new Promise((resolve, reject) => {resolve(image)});
-  }
-  image.src = url;
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = function() {
+      resolve(image);
+    }
+//     image.onerror = reject();
+    image.src = url;
+  });
 }
 
 function p_loadTexture(gl, img) {
