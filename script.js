@@ -405,9 +405,7 @@ function loadTexture(gl, url) {
 function loadImage(url) {
   const image = new Image();
   image.onload = function() {
-    console.log('image ' + url + ' is loaded, finally');
-    console.log(image);
-    Promise.resolve(image);
+    return Promise.resolve(image);
   }
   image.src = url;
 }
