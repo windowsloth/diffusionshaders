@@ -173,6 +173,7 @@ async function main() {
 //     texture,
 //     loadTexture(gl, './h1.jpg')
 //   ];
+  console.log(await loadImage('soldiers.jpg));
   const imagetexture = p_loadTexture(gl, await loadImage('soldiers.jpg'));
   const heightmaptexture = p_loadTexture(gl, await loadImage('h1.jpg'));
   const textures = [imagetexture, heightmaptexture];
@@ -404,6 +405,7 @@ function loadImage(url) {
   const image = new Image();
   image.onload = function() {
     console.log('image ' + url + ' is loaded, finally');
+    console.log(image);
     Promise.resolve(image);
   }
   image.src = url;
