@@ -172,14 +172,12 @@ async function main() {
 
   const imagetexture = await loadImage('soldiers.jpg');
   const heightmaptexture = await loadImage('h1.jpg');
-  console.log(imagetexture);
-  const textures = [p_loadTexture(gl, imagetexture), p_loadTexture(gl, heightmaptexture)];
   dimensions[0] = imagetexture.width;
   dimensions[1] = imagetexture.height;
-  console.log(dimensions);
   canvas.width = imagetexture.width;
   canvas.height = imagetexture.height;
-
+  const textures = [await p_loadTexture(gl, imagetexture), await p_loadTexture(gl, heightmaptexture)];
+  
   drawScene(gl, programinfo, buffers, textures);
 
   $('#red_maxtime').on('input', function() {
@@ -415,21 +413,23 @@ function loadImage(url) {
 }
 
 function p_loadTexture(gl, img) {
-  const texture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  console.log('I am going to use this file: ' + img);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-  if (isPowerOf2(img.width) && isPowerOf2(img.height)) {
-     // Yes, it's a power of 2. Generate mips.
-     gl.generateMipmap(gl.TEXTURE_2D);
-  } else {
-   // No, it's not a power of 2. Turn of mips and set
-   // wrapping to clamp to edge
-   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  }
-  return texture;
+  return new Promise((resolve, reject) => {
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    console.log('I am going to use this file: ' + img);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+    if (isPowerOf2(img.width) && isPowerOf2(img.height)) {
+       // Yes, it's a power of 2. Generate mips.
+       gl.generateMipmap(gl.TEXTURE_2D);
+    } else {
+     // No, it's not a power of 2. Turn of mips and set
+     // wrapping to clamp to edge
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    }
+    resolve(texture);
+  });
 }
 
 // Putting in this code to try and understand why the example works but mine does not.
