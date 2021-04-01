@@ -413,6 +413,7 @@ function loadImage(url) {
 }
 
 function p_loadTexture(gl, img) {
+  console.log(img);
   return new Promise((resolve, reject) => {
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
