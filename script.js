@@ -170,14 +170,14 @@ async function main() {
 //     loadTexture(gl, './h1.jpg')
 //   ];
 
-  const imagetexture = p_loadTexture(gl, await loadImage('soldiers.jpg'));
-  const heightmaptexture = p_loadTexture(gl, await loadImage('h1.jpg'));
-  const textures = [imagetexture, heightmaptexture];
-  dimensions[0] = textures[0].width;
-  dimensions[1] = textures[0].height;
+  const imagetexture = await loadImage('soldiers.jpg');
+  const heightmaptexture = await loadImage('h1.jpg');
+  const textures = [p_loadTexture(gl, imagetexture), p_loadTexture(gl, heightmaptexture)];
+  dimensions[0] = imagetexture.width;
+  dimensions[1] = imagetexture.height;
   console.log(dimensions);
-//   canvas.width = textures[0].width;
-//   canvas.height = textures[0].height;
+  canvas.width = imagetexture.width;
+  canvas.height = imagetexture.height;
 
   drawScene(gl, programinfo, buffers, textures);
 
