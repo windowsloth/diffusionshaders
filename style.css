@@ -15,8 +15,9 @@ section {
   width: 100%;
 }
 canvas {
-  width: auto;
+  /* width: auto; */
   width: 1000px;
+  /* height: 1000px; */
   /* width: 750px; */
   /* height: 500px; */
   /* display: block; */

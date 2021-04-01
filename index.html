@@ -22,9 +22,6 @@
     </style> -->
     <script src="./script.js"></script>
     <script>
-      window.onload = function() {
-        main();
-      }
     </script>
   </head>
   <body>
@@ -33,14 +30,39 @@
       <!--CANVAS GOES HERE!-->
     </section>
     <section id="sub">
+      <!-- <input type="file"
+        id="mainimage" name="avatar"
+        accept="image/png, image/jpeg">
+      <label for="mainimage">select image</label> -->
       <input type="checkbox" id="invert" value="0">
       <label for="invert">invert height map</label>
     <section id="menus">
       <nav id="red">
+        <h1>red</h1>
+        <input type="range" id="red_maxtime" min="0" max="512" value="56.0">
+        <label for="red_maxtime">max time</label>
+        <input type="range" id="red_timeinterval" min="0" max="1000" value="1000">
+        <label for="red_timeinterval">time interval</label>
+        <input type="range" id="red_stepsize" min="0" max="1000" value="500.0">
+        <label for="red_stepsize">step size</label>
       </nav>
       <nav id="green">
+        <h1>green</h1>
+        <input type="range" id="green_maxtime" min="0" max="512" value="56.0">
+        <label for="green_maxtime">max time</label>
+        <input type="range" id="green_timeinterval" min="0" max="1000" value="1000">
+        <label for="green_timeinterval">time interval</label>
+        <input type="range" id="green_stepsize" min="0" max="1000" value="500.0">
+        <label for="green_stepsize">step size</label>
       </nav>
       <nav id="blue">
+        <h1>blue</h1>
+        <input type="range" id="blue_maxtime" min="0" max="512" value="56.0">
+        <label for="blue_maxtime">max time</label>
+        <input type="range" id="blue_timeinterval" min="0" max="1000" value="1000">
+        <label for="blue_timeinterval">time interval</label>
+        <input type="range" id="blue_stepsize" min="0" max="1000" value="500.0">
+        <label for="blue_stepsize">step size</label>
       </nav>
     </section>
     <button id="save">save</button>
