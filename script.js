@@ -176,6 +176,7 @@ function main() {
   const imagetexture = p_loadTexture(gl, 'soldiers.jpg');
   const heightmaptexture = p_loadTexture(gl, 'h1.jpg');
   Promise.all([imagetexture, heightmaptexture]).then(textures => {
+    console.log('in theory, images have loaded');
     drawScene(gl, programinfo, buffers, textures);
   });
 
