@@ -173,8 +173,8 @@ function main() {
 //     texture,
 //     loadTexture(gl, './h1.jpg')
 //   ];
-  const imagetexture = promise.resolve(p_loadTexture(gl, 'soldiers.jpg'));
-  const heightmaptexture = promise.resolve(p_loadTexture(gl, 'h1.jpg'));
+  const imagetexture = Promise.resolve(p_loadTexture(gl, 'soldiers.jpg'));
+  const heightmaptexture = Promise.resolve(p_loadTexture(gl, 'h1.jpg'));
   Promise.all([imagetexture, heightmaptexture]).then(textures => {
     drawScene(gl, programinfo, buffers, textures);
   });
