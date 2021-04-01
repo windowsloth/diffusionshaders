@@ -113,7 +113,7 @@ const frag = `
   }
 `;
 
-function main() {
+async function main() {
 // REFACTORED SHADER CODE BASED ON WEBGL MDN EXAMPLES
 // https://github.com/mdn/webgl-examples
 
@@ -173,14 +173,11 @@ function main() {
 //     texture,
 //     loadTexture(gl, './h1.jpg')
 //   ];
-  const imagetexture = p_loadTexture(gl, 'soldiers.jpg');
-  const heightmaptexture = p_loadTexture(gl, 'h1.jpg');
-  Promise.all([imagetexture, heightmaptexture]).then(textures => {
-    console.log('still messing with syntax');
-    drawScene(gl, programinfo, buffers, textures);
-  });
+  const imagetexture = p_loadTexture(gl, await loadImage('soldiers.jpg'));
+  const heightmaptexture = p_loadTexture(gl, await loadImage('h1.jpg'));
+  const textures = [imagetexture, heightmaptexture];
 
-//   drawScene(gl, programinfo, buffers, textures);
+  drawScene(gl, programinfo, buffers, textures);
 
   $('#red_maxtime').on('input', function() {
     red_maxtime = $('#red_maxtime').val();
@@ -403,29 +400,31 @@ function loadTexture(gl, url) {
   return texture;
 }
 
-function p_loadTexture(gl, url) {
-  // Load in a white pixel as a placeholder while the image(s) load
-  const texture = gl.createTexture();
+function loadImage(url) {
   const image = new Image();
   image.onload = function() {
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-
-    if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-       // Yes, it's a power of 2. Generate mips.
-       gl.generateMipmap(gl.TEXTURE_2D);
-    } else {
-       // No, it's not a power of 2. Turn of mips and set
-       // wrapping to clamp to edge
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    }
     console.log('image ' + url + ' is loaded, finally');
-    let result = new Promise((resolve) => {resolve(texture)});
-    return result;
+    Promise.resolve(image);
   }
   image.src = url;
+}
+
+function p_loadTexture(gl, img) {
+  const texture = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+  if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+     // Yes, it's a power of 2. Generate mips.
+     gl.generateMipmap(gl.TEXTURE_2D);
+  } else {
+     // No, it's not a power of 2. Turn of mips and set
+     // wrapping to clamp to edge
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    }
+  }
+  return texture;
 }
 
 // Putting in this code to try and understand why the example works but mine does not.
