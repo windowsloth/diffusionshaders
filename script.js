@@ -172,6 +172,7 @@ async function main() {
 
   const imagetexture = await loadImage('soldiers.jpg');
   const heightmaptexture = await loadImage('h1.jpg');
+  console.log(imagetexture);
   const textures = [p_loadTexture(gl, imagetexture), p_loadTexture(gl, heightmaptexture)];
   dimensions[0] = imagetexture.width;
   dimensions[1] = imagetexture.height;
