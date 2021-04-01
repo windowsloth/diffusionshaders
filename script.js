@@ -418,7 +418,7 @@ function p_loadTexture(gl, img) {
   gl.bindTexture(gl.TEXTURE_2D, texture);
   console.log('I am going to use this file: ' + img);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-  if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+  if (isPowerOf2(img.width) && isPowerOf2(img.height)) {
      // Yes, it's a power of 2. Generate mips.
      gl.generateMipmap(gl.TEXTURE_2D);
   } else {
