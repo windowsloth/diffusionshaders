@@ -173,7 +173,7 @@ async function main() {
 //     texture,
 //     loadTexture(gl, './h1.jpg')
 //   ];
-  let testomania = await loadImage('soldiers.jpg);
+  let testomania = await loadImage('soldiers.jpg');
                                    console.log('here is a weird thing: ' + testomania);
   const imagetexture = p_loadTexture(gl, await loadImage('soldiers.jpg'));
   const heightmaptexture = p_loadTexture(gl, await loadImage('h1.jpg'));
