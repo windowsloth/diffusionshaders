@@ -173,8 +173,8 @@ function main() {
 //     texture,
 //     loadTexture(gl, './h1.jpg')
 //   ];
-  const imagetexture = Promise.resolve(p_loadTexture(gl, 'soldiers.jpg'));
-  const heightmaptexture = Promise.resolve(p_loadTexture(gl, 'h1.jpg'));
+  const imagetexture = p_loadTexture(gl, 'soldiers.jpg');
+  const heightmaptexture = p_loadTexture(gl, 'h1.jpg');
   Promise.all([imagetexture, heightmaptexture]).then(textures => {
     drawScene(gl, programinfo, buffers, textures);
   });
@@ -421,7 +421,7 @@ function p_loadTexture(gl, url) {
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
     console.log('image ' + url + ' is loaded, finally');
-    return texture;
+    return Promise.resolve(texture);
   }
   image.src = url;
 }
