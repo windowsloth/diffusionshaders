@@ -224,6 +224,14 @@ async function main() {
     blue_stepsize = $('#blue_stepsize').val() / 100;
     drawScene(gl, programinfo, buffers, textures);
   });
+  $('#invert').on('change', () => {
+    if($('#invert).val()) {
+      invert = 1.0;
+    } else {
+       invert = 0.0;
+    }
+    drawScene(gl, programinfo, buffers, textures);
+  });
   // $('#mainimage').on('input', function() {
   //   const newsrc = (URL.createObjectURL($('#mainimage').prop('files')[0]));
   //   testimage.src = newsrc;
