@@ -113,11 +113,9 @@ async function main() {
 
   const canvas = document.querySelector('#glcanvas');
   const imagetexture = await loadImage('church.jpg');
-  const heightmaptexture = await loadImage('h1.jpg');
+  const heightmaptexture = await loadImage('h9.jpg');
   canvas.width = imagetexture.width;
   canvas.height = imagetexture.height;
-//   canvas.width = 2048.0;
-//   canvas.height = 1067.0;
   dimensions[0] = canvas.width;
   dimensions[1] = canvas.height;
   const gl = canvas.getContext('webgl');
