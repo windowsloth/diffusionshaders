@@ -20,7 +20,8 @@ canvas {
 nav {
   display: flex;
   flex-flow: column;
-  background-color: snow;
+  background-color: #f5f5f5;
+  border: 2px solid #778899;
 }
 h3 {
   text-align: center;
