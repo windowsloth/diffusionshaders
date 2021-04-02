@@ -116,6 +116,8 @@ async function main() {
   const canvas = document.querySelector('#glcanvas');
   canvas.width = testimage.width;
   canvas.height = testimage.height;
+  dimensions[0] = canvas.width;
+  dimensions[1] = canvas.height;
   const gl = canvas.getContext('webgl');
 
   // Error handling in case WebGL is not available
@@ -169,14 +171,16 @@ async function main() {
 //     texture,
 //     loadTexture(gl, './h1.jpg')
 //   ];
-
-  const imagetexture = await loadImage('soldiers.jpg');
-  const heightmaptexture = await loadImage('h1.jpg');
-  dimensions[0] = imagetexture.width;
-  dimensions[1] = imagetexture.height;
+  const imagetexture = p_loadTexture(gl, await loadImage('soldiers.jpg'));
+  const heightmaptexture = p_loadTexture(gl, await loadImage('h1.jpg')); 
+//   const imagetexture = await loadImage('soldiers.jpg');
+//   const heightmaptexture = await loadImage('h1.jpg');
+//   dimensions[0] = imagetexture.width;
+//   dimensions[1] = imagetexture.height;
 //   canvas.width = imagetexture.width;
 //   canvas.height = imagetexture.height;
-  const textures = [p_loadTexture(gl, imagetexture), p_loadTexture(gl, heightmaptexture)];
+//   const textures = [p_loadTexture(gl, imagetexture), p_loadTexture(gl, heightmaptexture)];
+  const textures = [imagetexture, heightmaptexture];
   
   drawScene(gl, programinfo, buffers, textures);
 
