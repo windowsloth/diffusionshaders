@@ -90,9 +90,9 @@ const frag = `
   }
   void main() {
     vec2 coord = gl_FragCoord.xy;
-    // float map_result = 0.5 + cos((inversion(invert, texture2D(u_image1, texcoord)) + 1.0) * 3.1415) / 2.0;
+    float map_result = 0.5 + cos((inversion(invert, texture2D(u_image1, texcoord)) + 1.0) * 3.1415) / 2.0;
     // float map_result = 0.5 + cos((texture2D(u_image1, texcoord).x + 1.0) * 3.1415) / 2.0;
-    float map_result = 1.0;
+    // float map_result = 1.0;
     float redtime = red_maxtime * map_result;
     float greentime = green_maxtime * map_result;
     float bluetime = blue_maxtime * map_result;
