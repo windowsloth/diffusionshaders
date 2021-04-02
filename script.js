@@ -225,7 +225,7 @@ async function main() {
     drawScene(gl, programinfo, buffers, textures);
   });
   $('#invert').on('change', () => {
-    if($('#invert).val()) {
+    if($('#invert').val()) {
       invert = 1.0;
     } else {
        invert = 0.0;
