@@ -11,12 +11,10 @@ let blue_timeinterval = 1.0;
 let blue_stepsize = 5.0;
 
 let invert = 0.0;
-const testimage = new Image();
 let dimensions = new Float32Array([0.0, 0.0]);
 
 $('document').ready(function() {
   main();
-  testimage.src = './soldiers.jpg'
 });
 
 const vert = `
@@ -114,7 +112,7 @@ async function main() {
 // https://github.com/mdn/webgl-examples
 
   const canvas = document.querySelector('#glcanvas');
-  const imagetexture = await loadImage('soldiers.jpg');
+  const imagetexture = await loadImage('church.jpg');
   const heightmaptexture = await loadImage('h1.jpg');
   canvas.width = imagetexture.width;
   canvas.height = imagetexture.height;
