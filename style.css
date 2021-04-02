@@ -11,19 +11,16 @@ body  {
 section {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
 }
 canvas {
   width: auto;
-  width: 1000px;
-  /* width: 750px; */
-  /* height: 500px; */
-  /* display: block; */
 }
 nav {
   display: flex;
   flex-flow: column;
+  background-color: snow;
 }
 h3 {
   text-align: center;
