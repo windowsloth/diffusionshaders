@@ -114,8 +114,8 @@ async function main() {
 // https://github.com/mdn/webgl-examples
 
   const canvas = document.querySelector('#glcanvas');
-  canvas.width = testimage.width;
-  canvas.height = testimage.height;
+  canvas.width = 2048.0;
+  canvas.height = 1067.0;
   dimensions[0] = canvas.width;
   dimensions[1] = canvas.height;
   const gl = canvas.getContext('webgl');
